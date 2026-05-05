@@ -38,12 +38,15 @@ public class Main extends JFrame {
         JPanel buttonPanel = new JPanel();
         JButton addButton = new JButton("Add Transaction");
         JButton statsButton = new JButton("View Statistics");
+        JButton refreshButton = new JButton("Refresh");
 
         addButton.addActionListener(e -> openAddTransactionWindow());
         statsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "test"));
+        refreshButton.addActionListener(e -> refreshStats());
 
         buttonPanel.add(addButton);
         buttonPanel.add(statsButton);
+        buttonPanel.add(refreshButton);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -64,7 +67,13 @@ public class Main extends JFrame {
     }
 
     private void openAddTransactionWindow() {
-        System.out.println("test");
+        AddTransactionDialog dialog = new AddTransactionDialog(this);
+        dialog.setVisible(true);
+    }
+
+    private void refreshStats() {
+        refreshTableData();
+        updateBalanceDisplay();
     }
 
     public static void main(String[] args) {
