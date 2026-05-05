@@ -34,6 +34,17 @@ public class Main extends JFrame {
         add(topPanel, BorderLayout.NORTH);
 
         add(new JScrollPane(table), BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel();
+        JButton addButton = new JButton("Add Transaction");
+        JButton statsButton = new JButton("View Statistics");
+
+        addButton.addActionListener(e -> openAddTransactionWindow());
+        statsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "test"));
+
+        buttonPanel.add(addButton);
+        buttonPanel.add(statsButton);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     private void updateBalanceDisplay() {
@@ -53,6 +64,7 @@ public class Main extends JFrame {
     }
 
     private void openAddTransactionWindow() {
+        System.out.println("test");
     }
 
     public static void main(String[] args) {
