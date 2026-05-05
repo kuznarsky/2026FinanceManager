@@ -15,7 +15,8 @@ public class Main extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        manager.addTransaction(new Income(5000, "Salary", "Monthly pay", LocalDate.now()));
+        manager.addTransaction(new Income(500, "Salary", "Monthly pay", LocalDate.now()));
+        manager.addTransaction(new Expense(1200, "Rent", "Apartment rent", LocalDate.now()));
 
         balanceLabel = new JLabel("Total balance: 0.00 $");
         balanceLabel.setFont(new Font("Arial", Font.BOLD, 18));
@@ -24,12 +25,15 @@ public class Main extends JFrame {
         String[] columns = {"Type", "Amount", "Description", "Date"};
         tableModel = new DefaultTableModel(columns, 0);
         table = new JTable(tableModel);
+        refreshTableData();
 
         setLayout(new BorderLayout(10, 10));
 
         JPanel topPanel = new JPanel();
         topPanel.add(balanceLabel);
         add(topPanel, BorderLayout.NORTH);
+
+        add(new JScrollPane(table), BorderLayout.CENTER);
     }
 
     private void updateBalanceDisplay() {
@@ -37,6 +41,18 @@ public class Main extends JFrame {
 
         balanceLabel.setText(String.format("Total balance: %.2f $", balance));
         balanceLabel.setForeground(balance >= 0 ? new Color(0,120,0) : Color.RED);
+    }
+
+    private void refreshTableData() {
+        tableModel.setRowCount(0);
+        for (Transaction t : manager.getTransactions()) {
+            String type = (t instanceof Income) ? "Income" : "Expense";
+            Object[] row = {type, t.getAmount(), t.getDescription(), t.getDate()};
+            tableModel.addRow(row);
+        }
+    }
+
+    private void openAddTransactionWindow() {
     }
 
     public static void main(String[] args) {
