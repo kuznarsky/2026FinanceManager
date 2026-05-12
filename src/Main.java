@@ -41,7 +41,7 @@ public class Main extends JFrame {
         JButton refreshButton = new JButton("Refresh");
 
         addButton.addActionListener(e -> openAddTransactionWindow());
-        statsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "test"));
+        statsButton.addActionListener(e -> { StatisticsWindow stats = new StatisticsWindow(this, manager); stats.setVisible(true); });
         refreshButton.addActionListener(e -> refreshStats());
 
         buttonPanel.add(addButton);
