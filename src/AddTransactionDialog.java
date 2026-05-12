@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
 
 public class AddTransactionDialog extends JDialog {
     private JTextField amountField = new JTextField(10);
@@ -10,7 +11,7 @@ public class AddTransactionDialog extends JDialog {
     private Transaction resultTransaction = null;
     private boolean confirmed = false;
 
-    public addTransactionDialog(JFrame parent) {
+    public AddTransactionDialog(JFrame parent) {
         super(parent, "Add New Transaction", true);
         setLayout(new GridLayout(5, 2, 10, 10));
 
@@ -41,5 +42,34 @@ public class AddTransactionDialog extends JDialog {
     }
 
     private void handleSave() {
+        try {
+            double amount = Double.parseDouble(amountField.getText());
+            if (amount <= 0) throw new IllegalArgumentException("Amount must be positive.");
+
+            String category = categoryField.getText();
+            String desc = descField.getText();
+            LocalDate date = LocalDate.now();
+
+            if (typeCombo.getSelectedItem().equals("Income")) {
+                resultTransaction = new Income(amount, category, desc, date);
+            } else {
+                resultTransaction = new Expense(amount, category, desc, date);
+            }
+
+            confirmed = true;
+            dispose();
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid number for amount", "Input Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public Transaction getResult() {
+        return resultTransaction;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
     }
 }

@@ -69,6 +69,15 @@ public class Main extends JFrame {
     private void openAddTransactionWindow() {
         AddTransactionDialog dialog = new AddTransactionDialog(this);
         dialog.setVisible(true);
+
+        if (dialog.isConfirmed()) {
+            Transaction newT = dialog.getResult();
+
+            manager.addTransaction(newT);
+            manager.saveToFile();
+            refreshTableData();
+            updateBalanceDisplay();
+        }
     }
 
     private void refreshStats() {
